@@ -27,12 +27,10 @@ function App() {
 	}, []);
 
 	return !loading ? (
-		<div className="min-h-screen border flex flex-wrap content-between bg-gray-800">
+		<div className="min-h-screen border flex flex-wrap content-between bg-gray-900">
 			<div className="w-full jus flex flex-col ">
 				<Header />
-				<main>
-					TODO: <Outlet />
-				</main>
+				<main></main>
 				<Footer />
 			</div>
 		</div>
