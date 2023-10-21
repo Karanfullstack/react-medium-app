@@ -1,39 +1,35 @@
-import conf from "../conf/conf";
 import {Client, Account, ID} from "appwrite";
+import environment from "../environment/environment";
 
-export class AuthService {
+class AuthService {
 	client = new Client();
 	account;
 
+	// settings
 	constructor() {
 		this.client
-			.setEndpoint(conf.appWriteUrl)
-			.setProject(conf.appWriteProjectId);
+			.setEndpoint(environment.appwriteUrl)
+			.setProject(environment.appwriteProjectId);
 		this.account = new Account(this.client);
 	}
 
-	// Signup Method
+	// Create Account
 	async createAccount({email, password, name}) {
 		try {
-			const userAccount = await this.account.create(
+			const user = await this.account.create(
 				ID.unique(),
 				email,
 				password,
 				name
 			);
-			if (userAccount) {
-				// call another method
-				return this.logIn({email, password});
-			} else {
-				return userAccount;
-			}
+			return user;
 		} catch (error) {
 			throw error;
 		}
 	}
 
-	// Login Method
-	async logIn({email, password}) {
+	// Login Account
+	async login({email, password}) {
 		try {
 			return await this.account.createEmailSession(email, password);
 		} catch (error) {
@@ -41,16 +37,19 @@ export class AuthService {
 		}
 	}
 
-	async getCurrentUser() {
+	// Current User
+	async currentUser() {
 		try {
-			return await this.account.get();
+			const userAccount = await this.account.get();
+			if (userAccount) return userAccount;
+			else return null;
 		} catch (error) {
-			console.log("Appwrite service :: getCurrentUser :: error", error);
+			throw error;
 		}
-		return null;
 	}
 
-	async logOut() {
+	// Logout User
+	async logout() {
 		try {
 			return await this.account.deleteSessions();
 		} catch (error) {
@@ -60,5 +59,4 @@ export class AuthService {
 }
 
 const authService = new AuthService();
-
 export default authService;
