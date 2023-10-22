@@ -2,8 +2,12 @@ import {useState} from "react";
 import "./App.css";
 import postService from "./services/postService";
 import storageService from "./services/storageService";
+import {useDispatch} from "react-redux";
+import {login, logout} from "./features/authSlice/authSlice";
 
 function App() {
+	const dispatch = useDispatch();
+
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [preview, setPreview] = useState(null);
@@ -128,7 +132,7 @@ function App() {
 			<h1 className=" mt-36 text-4xl text-gray-900 text-center">Vite React</h1>
 			<button onClick={listDocuments}> Get All Document</button>
 			<input onChange={fileHandleChange} type="file" />
-			<button onClick={getPreview}>Show Preview File</button>
+			<button onClick={uploadHandeler}>Login</button>
 		</div>
 	);
 }
