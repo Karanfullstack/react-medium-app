@@ -1,7 +1,11 @@
 import {useState} from "react";
 import "./App.css";
 import postService from "./services/postService";
+import storageService from "./services/storageService";
+
 function App() {
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [loading, setLoading] = useState(false);
 	// Raw Data
 	const doc = {
 		title: "How To Get All Document",
@@ -68,12 +72,51 @@ function App() {
 		}
 	};
 
-	
+	// Onchange File Handler
+	const fileHandleChange = (event) => {
+		const file = event.target.files[0];
+		setSelectedFile(file);
+	};
+
+	// Upload file Handler
+	const uploadHandeler = async () => {
+		try {
+			setLoading(true);
+			if (selectedFile) {
+				const file = await storageService.uploadFile(selectedFile);
+				if (file) {
+					console.log(file);
+					console.log("Uploaded Sucessfully");
+				}
+			}
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
+	};
+
+	// Delete File
+	const deleteFile = async () => {
+		const fileId = "65350058c81c81933a40";
+		setLoading(true);
+		try {
+			const file = await storageService.deleteFile(fileId);
+			console.log("File Deleted with Id: ");
+			console.log(file);
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
+	};
 
 	return (
 		<div className=" bg-slate-300">
 			<h1 className=" mt-36 text-4xl text-gray-900 text-center">Vite React</h1>
 			<button onClick={listDocuments}> Get All Document</button>
+			<input onChange={fileHandleChange} type="file" />
+			<button onClick={deleteFile}>Delete File</button>
 		</div>
 	);
 }

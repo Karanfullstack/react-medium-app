@@ -1,4 +1,4 @@
-import {Client, ID, Databases} from "appwrite";
+import {Client, ID, Databases, Query} from "appwrite";
 import environment from "../environment/environment";
 
 class PostService {
@@ -69,11 +69,12 @@ class PostService {
 	}
 
 	// List Documents @Pending - Get All Documents
-	async listDocuments() {
+	async listDocuments(queries = [Query.equal("status", "active")]) {
 		try {
 			return await this.databases.listDocuments(
 				environment.appwriteDatabseId,
-				environment.appwriteCollectionId
+				environment.appwriteCollectionId,
+				queries
 			);
 		} catch (error) {
 			throw error;
