@@ -6,6 +6,7 @@ import storageService from "./services/storageService";
 function App() {
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [preview, setPreview] = useState(null);
 	// Raw Data
 	const doc = {
 		title: "How To Get All Document",
@@ -111,12 +112,23 @@ function App() {
 		}
 	};
 
+	// Preview File
+	const getPreview = () => {
+		const fileId = "65350c4bea01b4ade520";
+		try {
+			const file = storageService.previewFile(fileId);
+			console.log(file);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className=" bg-slate-300">
 			<h1 className=" mt-36 text-4xl text-gray-900 text-center">Vite React</h1>
 			<button onClick={listDocuments}> Get All Document</button>
 			<input onChange={fileHandleChange} type="file" />
-			<button onClick={deleteFile}>Delete File</button>
+			<button onClick={getPreview}>Show Preview File</button>
 		</div>
 	);
 }

@@ -11,7 +11,7 @@ class StorageService {
 		this.stroage = new Storage(this.client);
 	}
 
-	// Upload File
+	// Upload File @Successful
 	async uploadFile(file) {
 		try {
 			return await this.stroage.createFile(
@@ -25,11 +25,20 @@ class StorageService {
 		}
 	}
 
-	// Delete File
+	// Delete File @Successful
 	async deleteFile(fileId) {
 		try {
 			await this.stroage.deleteFile(environment.appwriteBucketId, fileId);
 			return true;
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	// Get Preview File @Sucessful
+	previewFile(fileId) {
+		try {
+			return this.stroage.getFilePreview(environment.appwriteBucketId, fileId);
 		} catch (error) {
 			throw error;
 		}

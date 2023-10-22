@@ -68,7 +68,7 @@ class PostService {
 		}
 	}
 
-	// List Documents @Pending - Get All Documents
+	// List Documents @Sucessful - Get All Documents
 	async listDocuments(queries = [Query.equal("status", "active")]) {
 		try {
 			return await this.databases.listDocuments(
