@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useRef, useEffect} from "react";
 import {Header, Footer} from "./components";
 import {useDispatch} from "react-redux";
 import authService from "./services/authService";
@@ -28,7 +28,7 @@ function App() {
 				setLoading(false);
 			});
 	}, []);
-	
+
 	return !loading ? (
 		<div className=" min-h-screen flex justify-center flex-wrap  bg-gray-900">
 			<div className="  w-full  text-white">
