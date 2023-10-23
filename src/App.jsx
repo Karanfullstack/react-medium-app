@@ -28,7 +28,7 @@ function App() {
 				setLoading(false);
 			});
 	}, []);
-
+	
 	return !loading ? (
 		<div className=" min-h-screen flex justify-center flex-wrap  bg-gray-900">
 			<div className="  w-full  text-white">

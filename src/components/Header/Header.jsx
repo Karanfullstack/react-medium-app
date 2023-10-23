@@ -57,7 +57,6 @@ const Header = () => {
 							</li>
 						)}
 					</ul>
-          
 				</nav>
 			</Container>
 		</header>
