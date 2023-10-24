@@ -17,6 +17,7 @@ const LogoutBtn = () => {
 				console.log(error);
 			});
 	};
+
 	return (
 		<button
 			onClick={logoutHandler}

@@ -7,12 +7,12 @@ import {login as authLogin} from "../../features/authSlice/authSlice";
 
 const Login = () => {
 	const dispatch = useDispatch();
-	const {register, handleSubmit} = useForm();
+	const {register, reset, handleSubmit} = useForm();
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	// Handling Login Logic
-	const handelSignup = async (data) => {
+	const handelLogin = async (data) => {
 		setError("");
 		setLoading(true);
 		try {
@@ -22,16 +22,19 @@ const Login = () => {
 				if (userData) {
 					dispatch(authLogin(userData));
 					console.log("Logged In Successfully");
+					reset();
 					{
 						/* TODO: REDIRECT TO HOME PAGE */
 					}
 				}
+				setLoading(false);
 			}
 		} catch (error) {
 			setError(error.message);
 			setLoading(false);
 		}
 	};
+
 	return (
 		<div className="flex  flex-col items-center pb-4 justify-center w-full">
 			<div className="mb-6 flex justify-center">
@@ -45,7 +48,7 @@ const Login = () => {
 
 			{/* TODO:  Error Show */}
 			{error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-			<form onSubmit={handleSubmit(handelSignup)} className="mt-8">
+			<form onSubmit={handleSubmit(handelLogin)} className="mt-8">
 				<div className="space-y-5">
 					<Input
 						label="Enter Your Email"
@@ -60,7 +63,11 @@ const Login = () => {
 						placeholder="Enter Your Password"
 						{...register("password")}
 					/>
-					<Button type="submit" className=" bg-gray-800">
+					<Button
+						disabled={loading}
+						type="submit"
+						className=" bg-gray-800 hover:bg-slate-400"
+					>
 						{loading ? "Processing" : "Submit"}
 					</Button>
 				</div>

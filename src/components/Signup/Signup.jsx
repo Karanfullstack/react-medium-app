@@ -2,27 +2,35 @@ import React, {useState} from "react";
 import {Button, Input, Logo} from "../../common";
 import authService from "../../services/authService";
 import {useForm} from "react-hook-form";
+import {useDispatch} from "react-redux";
+import {login} from "../../features/authSlice/authSlice";
 
 const Signup = () => {
-	const {register, handleSubmit} = useForm();
+	const {register, reset, handleSubmit} = useForm();
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
-
+	const dispatch = useDispatch();
 	// Handling Login Logic
-	const handelLogin = async (data) => {
+	const HandelSignup = async (data) => {
 		setError("");
 		setLoading(true);
 		try {
 			const session = await authService.createAccount(data);
 			if (session) {
-				console.log("User Created Sucessfully");
-				setLoading(false);
+				const userData = authService.currentUser();
+				if (userData) {
+					console.log("User Created Sucessfully");
+					dispatch(login(userData));
+					setLoading(false);
+					reset();
+				}
 			}
 		} catch (error) {
 			setError(error.message);
 			setLoading(false);
 		}
 	};
+
 	return (
 		<div className="flex  flex-col items-center pb-4 justify-center w-full">
 			<div className="mb-6 flex justify-center">
@@ -36,7 +44,7 @@ const Signup = () => {
 
 			{/* TODO:  Error Show */}
 			{error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-			<form onSubmit={handleSubmit(handelLogin)} className="mt-8">
+			<form onSubmit={handleSubmit(HandelSignup)} className="mt-8">
 				<div className="space-y-5">
 					<Input
 						type="text"
@@ -50,7 +58,7 @@ const Signup = () => {
 						placeholder="Enter your email"
 						{...register("email")}
 					/>
-
+					{/* TODO: VALIDATION REGEX EMAIL */}
 					<Input
 						type="password"
 						label="Enter Your password"
