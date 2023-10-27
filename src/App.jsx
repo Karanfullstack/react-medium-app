@@ -1,5 +1,5 @@
-import {useState, useRef, useEffect} from "react";
-import {Header, Footer, Login, Signup} from "./components";
+import {useState, useEffect} from "react";
+import {Header, Footer} from "./components";
 import {useDispatch} from "react-redux";
 import authService from "./services/authService";
 import {login, logout} from "./features/authSlice/authSlice";
@@ -33,10 +33,7 @@ function App() {
 		<div className=" min-h-screen flex justify-center flex-wrap  bg-gray-900">
 			<div className="  w-full  text-white">
 				<Header />
-				<main>
-					{/* TODO: <Outlet/> */}
-					<Login />
-				</main>
+				<main>{/* TODO: <Outlet/> */}</main>
 				<Footer />
 			</div>
 		</div>
