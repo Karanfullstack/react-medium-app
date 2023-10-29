@@ -1,18 +1,18 @@
 import React, {useEffect} from "react";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
-/* TODO: PROTECTED ROUTE IMPLEMENTATION */
 
 const AuthProtected = ({children, authentication = true}) => {
 	const authStatus = useSelector((state) => state.auth.status);
-
-	useEffect(() => {
+	const navigate = useNavigate();
+	{/* useEffect(() => {
 		if (authentication && authStatus !== authentication) {
-			console.log("Redirect To Login Page");
+			navigate("/login");
 		} else if (!authentication && authStatus !== authentication) {
-			console.log("Redirect To Home");
+			navigate("/");
 		}
-	}, [authStatus, authentication]);
+	}, [authStatus, authentication]); */}
 	return <>{children}</>;
 };
 

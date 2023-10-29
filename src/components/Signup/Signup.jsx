@@ -42,7 +42,6 @@ const Signup = () => {
 				Sign Up Account
 			</h2>
 
-			{/* TODO:  Error Show */}
 			{error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 			<form onSubmit={handleSubmit(HandelSignup)} className="mt-8">
 				<div className="space-y-5">
@@ -72,7 +71,9 @@ const Signup = () => {
 			</form>
 			<p className="mt-5 text-center text-base text-white/60">
 				have already an account?&nbsp;
-				<span>Sign In</span> {/* TODO: Wrap with Link */}
+				<Link to="/login">
+					<span>Sign In</span>
+				</Link>
 			</p>
 		</div>
 	);

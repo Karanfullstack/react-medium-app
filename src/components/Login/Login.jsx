@@ -7,12 +7,13 @@ import {login as authLogin} from "../../features/authSlice/authSlice";
 import {ImBlogger2} from "react-icons/im";
 import toast from "react-hot-toast";
 import "../../App.css";
+import {useNavigate, Link} from "react-router-dom";
 
 const Login = () => {
 	const dispatch = useDispatch();
 	const {register, reset, handleSubmit} = useForm();
 	const [loading, setLoading] = useState(false);
-
+	const navigate = useNavigate();
 	// Handling Login Logic
 	const handelLogin = async (data) => {
 		setLoading(true);
@@ -24,9 +25,7 @@ const Login = () => {
 					dispatch(authLogin({userData}));
 					toast.success("Logged In Sucessfully");
 					reset();
-					{
-						/* TODO: REDIRECT TO HOME PAGE */
-					}
+					navigate("/");
 				}
 
 				setLoading(false);
@@ -49,8 +48,6 @@ const Login = () => {
 			<h2 className="text-center tracking-wide text-2xl font-bold leading-tight">
 				Sign your account
 			</h2>
-
-			{/* TODO:  Error Show */}
 
 			<form onSubmit={handleSubmit(handelLogin)} className="mt-8">
 				<div className="space-y-5">
@@ -80,7 +77,9 @@ const Login = () => {
 			</form>
 			<p className="mt-5 text-center text-base text-white/60">
 				Don&apos;t have any account?&nbsp;
-				<span>Signup</span> {/* TODO: Wrap with Link */}
+				<Link to="/signup">
+					<span>Signup</span>
+				</Link>
 			</p>
 		</div>
 	);

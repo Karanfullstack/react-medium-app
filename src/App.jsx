@@ -1,12 +1,12 @@
 import {useState, useEffect} from "react";
-import {Header, Footer, Login} from "./components";
+import {Header, Footer} from "./components";
 import {useDispatch} from "react-redux";
 import authService from "./services/authService";
 import {login, logout} from "./features/authSlice/authSlice";
 import {Loading} from "./common";
-import AllPosts from "./pages/AllPosts";
-import AddPost from "./pages/AddPost";
+
 import "./App.css";
+import {Outlet} from "react-router-dom";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -36,9 +36,10 @@ function App() {
 		<div className=" min-h-screen flex justify-center flex-wrap  bg-gray-900">
 			<div className="  w-full  text-white">
 				<Header />
-				<main>{/* TODO: <Outlet/> */}</main>
+				<main>
+					<Outlet />
+				</main>
 
-				<AddPost />
 				<Footer />
 			</div>
 		</div>

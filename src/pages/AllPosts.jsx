@@ -6,16 +6,19 @@ import {Loading, PostCard} from "../common";
 const AllPosts = () => {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
+	console.log(posts);
 
+	// Retrieve all posts
 	useEffect(() => {
 		postService
 			.listDocuments()
 			.then((data) => {
-				setPosts(data);
+				setPosts(data.documents);
+
 				setLoading(false);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.log(error, "during fetch");
 				setLoading(false);
 			});
 	}, []);
@@ -27,7 +30,7 @@ const AllPosts = () => {
 			<Container>
 				<div className="flex  flex-wrap gap-3">
 					{posts.map((post) => (
-						<div className="p-2 w-1/4">
+						<div key={post.$id} className="p-2 w-1/4">
 							<PostCard post={post} />
 						</div>
 					))}

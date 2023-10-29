@@ -3,10 +3,12 @@ import Container from "../../container/Container";
 import {LogoutBtn, Button} from "../../common";
 import {useSelector} from "react-redux";
 import {ImBlogger2} from "react-icons/im";
+import {useNavigate} from "react-router-dom";
 const Header = () => {
 	const {status, userData} = useSelector((state) => state.auth);
+	const navigate = useNavigate();
 	console.log(userData);
-	// TODO: NAVIGATION TO URL
+
 	// Nav Items
 	const navItems = [
 		{
@@ -57,13 +59,17 @@ const Header = () => {
 						{navItems.map((item) =>
 							item.active ? (
 								<li className="list-none" key={item.name}>
-									<Button>{item.name}</Button>
+									<Button onClick={() => navigate(item.slug)}>
+										{item.name}
+									</Button>
 								</li>
 							) : null
 						)}
 						{status && (
 							<div className="flex gap-4 items-center">
-								<li className=" bg-red-400 rounded-lg px-2 py-1">{userData?.email}</li>
+								<li className=" bg-red-400 rounded-lg px-2 py-1">
+									{userData?.email}
+								</li>
 								<li>
 									<LogoutBtn className="bg-orange-200" />
 								</li>
