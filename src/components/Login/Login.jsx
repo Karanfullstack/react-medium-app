@@ -1,10 +1,13 @@
 import React, {useState} from "react";
-import {Button, Input, Logo} from "../../common";
+import {Button, Input} from "../../common";
 import authService from "../../services/authService";
 import {useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
 import {login as authLogin} from "../../features/authSlice/authSlice";
+import {ImBlogger2} from "react-icons/im";
 import toast from "react-hot-toast";
+import "../../App.css";
+
 const Login = () => {
 	const dispatch = useDispatch();
 	const {register, reset, handleSubmit} = useForm();
@@ -17,8 +20,8 @@ const Login = () => {
 			const session = await authService.login(data);
 			if (session) {
 				const userData = await authService.currentUser();
-				if (userData) {
-					dispatch(authLogin(userData));
+				if (userData.email) {
+					dispatch(authLogin({userData}));
 					toast.success("Logged In Sucessfully");
 					reset();
 					{
@@ -35,13 +38,15 @@ const Login = () => {
 	};
 
 	return (
-		<div className="flex  flex-col items-center pb-4 justify-center w-full">
+		<div className="flex mt-6  flex-col items-center pb-4 justify-center w-full">
 			<div className="mb-6 flex justify-center">
 				<span className="inline-block w-full max-w-[100px]">
-					<Logo className="text-3xl" />
+					<ImBlogger2
+						className={`text-5xl text-orange-300 ${loading ? "rotating" : ""}`}
+					/>
 				</span>
 			</div>
-			<h2 className="text-center text-2xl font-bold leading-tight">
+			<h2 className="text-center tracking-wide text-2xl font-bold leading-tight">
 				Sign your account
 			</h2>
 
@@ -54,18 +59,20 @@ const Login = () => {
 						type="email"
 						placeholder="Enter your email"
 						{...register("email")}
+						labelClass="tracking-wide text-gray-400  "
 					/>
 
 					<Input
 						type="password"
 						label="Enter Your Password"
 						placeholder="Enter Your Password"
+						labelClass="tracking-wide text-gray-400 text-md"
 						{...register("password")}
 					/>
 					<Button
 						disabled={loading}
 						type="submit"
-						className=" bg-gray-800 hover:bg-slate-400"
+						className=" bg-gray-800 duration-200 hover:bg-slate-400"
 					>
 						{loading ? "Processing" : "Submit"}
 					</Button>

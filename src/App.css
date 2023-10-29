@@ -40,3 +40,34 @@
 .read-the-docs {
 	color: #888;
 }
+
+/* animation for logo  */
+.rotating {
+	-webkit-animation-name: spin;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-iteration-count: infinite;
+	animation-name: spin;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate3d(1, 2, 1, 0deg);
+	}
+	/*   50% {
+    transform: rotate3d(1, 2, 1, 180deg);
+  } */
+	100% {
+		transform: rotate3d(1, 2, 1, 360deg);
+	}
+}
+
+@keyframes rotating {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

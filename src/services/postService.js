@@ -14,13 +14,13 @@ class PostService {
 	}
 
 	// Create Document @Successful
-	async createDocument({title, content, featuredImage, status, userId}) {
+	async createDocument({title, content, featuredImage, status, userId, slug}) {
 		try {
 			return await this.databases.createDocument(
 				environment.appwriteDatabseId,
 				environment.appwriteCollectionId,
-				ID.unique(),
-				{title, content, featuredImage, status, userId}
+				slug,
+				{title, content, featuredImage, status, userId, slug}
 			);
 		} catch (error) {
 			throw error;
@@ -28,12 +28,12 @@ class PostService {
 	}
 
 	// Update Document @Successful
-	async updateDocument(document_Id, {title, content, featuredImage, status}) {
+	async updateDocument(slug, {title, content, featuredImage, status}) {
 		try {
 			return await this.databases.updateDocument(
 				environment.appwriteDatabseId,
 				environment.appwriteCollectionId,
-				document_Id,
+				slug,
 				{title, content, featuredImage, status}
 			);
 		} catch (error) {

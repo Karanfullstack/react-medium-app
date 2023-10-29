@@ -15,7 +15,7 @@ const RTE = ({label, name, control, defaultValue}) => {
 						init={{
 							initialValue: defaultValue,
 							height: 500,
-							width: 900,
+							width: 800,
 							menubar: true,
 							plugins: [
 								"image",
