@@ -4,8 +4,10 @@ import {useSelector} from "react-redux";
 import storageService from "../../services/storageService";
 import postService from "../../services/postService";
 import {Button, Input, RTE, Select} from "../../common";
+
 const Post = ({post}) => {
 	const userData = useSelector((state) => state.auth.userData);
+
 	const {control, register, setValue, getValues, handleSubmit, watch} = useForm(
 		{
 			defaultValues: {
@@ -34,30 +36,30 @@ const Post = ({post}) => {
 				return;
 			}
 		} else {
-			const file = data.image[0] ? data.image[0] : null;
-
+			const file = await storageService.uploadFile(data.image[0]);
 			if (file) {
-				await storageService.uploadFile(file);
+				const fileId = file.$id;
+				const dbPost = await postService.createDocument({
+					...data,
+					featuredImage: fileId,
+					userId: userData.$id,
+				});
+				if (dbPost) {
+					console.log("post Created");
+				}
 			}
-			const dbPost = await postService.createPost({
-				...data,
-				featuredImage: file.$id,
-				author: userData.$id,
-			});
-			if (dbPost) {
-				console.log("Redicret to post page");
-			}
-			f;
 		}
 	};
 
-	// Slugtranform
+	// Slug Convert
 	const slugTransform = useCallback((value) => {
 		return value
 			.toLowerCase()
 			.replace(/ /g, "-")
 			.replace(/[^\w-]+/g, "");
 	});
+
+	// Update Slug
 	useEffect(() => {
 		const subscription = watch((value, {name}) => {
 			if (name === "title") {
@@ -66,11 +68,13 @@ const Post = ({post}) => {
 			return () => subscription.unsubscribe();
 		});
 	}, [slugTransform]);
+
 	return (
 		<form
 			onSubmit={handleSubmit(onPost)}
 			className="py-5 px-5 gap-5 flex flex-wrap "
 		>
+			{/* Title, Slug, Editor */}
 			<div className="w-3/5 px-2  flex flex-col gap-3 items-center justify-center">
 				<Input
 					labelClass="text-2xl tracking-wider"
@@ -95,6 +99,7 @@ const Post = ({post}) => {
 				/>
 			</div>
 
+			{/* Upload Image, Status, Submit Button  */}
 			<div className="w-1/3 px-2 flex flex-col gap-6 items-center">
 				{post && (
 					<div className="w-full mb-4">

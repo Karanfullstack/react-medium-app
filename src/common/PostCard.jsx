@@ -2,13 +2,16 @@ import React from "react";
 import storageService from "../services/storageService";
 
 //  TODO: LINK ROUTER IMPLEMENTATION
-const PostCard = ({$id, title, featuredImage}) => {
+const PostCard = ({post}) => {
 	return (
 		<div className="w-full bg-gray-900 rounded-xl p-4">
 			<div className="w-full justify-center mb-4">
-				<img src={storageService.previewFile(featuredImage)} alt="" />
+				<img
+					src={storageService.previewFile(post?.featuredImage)}
+					alt={post?.title}
+				/>
 			</div>
-			<h2>{title}</h2>
+			<h2>{post?.title}</h2>
 		</div>
 	);
 };

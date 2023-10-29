@@ -20,9 +20,10 @@ class PostService {
 				environment.appwriteDatabseId,
 				environment.appwriteCollectionId,
 				slug,
-				{title, content, featuredImage, status, userId, slug}
+				{title, content, featuredImage, status, userId}
 			);
 		} catch (error) {
+			console.log("createDocument -- error");
 			throw error;
 		}
 	}
