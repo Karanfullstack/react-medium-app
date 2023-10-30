@@ -4,7 +4,8 @@ import authService from "../../services/authService";
 import {useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
 import {login} from "../../features/authSlice/authSlice";
-
+import {Link} from "react-router-dom";
+import {ImBlogger2} from "react-icons/im";
 const Signup = () => {
 	const {register, reset, handleSubmit} = useForm();
 	const [error, setError] = useState("");
@@ -35,7 +36,9 @@ const Signup = () => {
 		<div className="flex  flex-col items-center pb-4 justify-center w-full">
 			<div className="mb-6 flex justify-center">
 				<span className="inline-block w-full max-w-[100px]">
-					<Logo className="text-3xl" />
+					<ImBlogger2
+						className={`text-5xl text-orange-300 ${loading ? "rotating" : ""}`}
+					/>
 				</span>
 			</div>
 			<h2 className="text-center text-2xl font-bold leading-tight">
@@ -46,12 +49,14 @@ const Signup = () => {
 			<form onSubmit={handleSubmit(HandelSignup)} className="mt-8">
 				<div className="space-y-5">
 					<Input
+						labelClass="tracking-wide text-gray-400 text-md"
 						type="text"
 						{...register("name")}
 						placeholder="name"
 						label="Enter Your Name"
 					/>
 					<Input
+						labelClass="tracking-wide text-gray-400 text-md"
 						label="Enter Your Email"
 						type="email"
 						placeholder="Enter your email"
@@ -59,6 +64,7 @@ const Signup = () => {
 					/>
 					{/* TODO: VALIDATION REGEX EMAIL */}
 					<Input
+						labelClass="tracking-wide text-gray-400 text-md"
 						type="password"
 						label="Enter Your password"
 						placeholder="Enter Your Password"

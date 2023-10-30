@@ -3,9 +3,11 @@ import {useDispatch} from "react-redux";
 import {logout} from "../features/authSlice/authSlice";
 import authService from "../services/authService";
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 const LogoutBtn = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	// Logout handler
 	const logoutHandler = () => {
@@ -16,6 +18,7 @@ const LogoutBtn = () => {
 				dispatch(logout());
 				toast.success("Logout Successfully");
 				setLoading(false);
+				navigate("/login");
 			})
 			.catch((error) => {
 				console.log(error);

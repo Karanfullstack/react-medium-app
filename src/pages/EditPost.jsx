@@ -5,7 +5,7 @@ import Container from "../container/Container";
 import {Post} from "../components";
 
 const EditPost = () => {
-	const {post, setPost} = useState(null);
+	const [post, setPost] = useState(null);
 	const {slug} = useParams();
 	const navigate = useNavigate();
 
@@ -24,13 +24,7 @@ const EditPost = () => {
 		}
 	}, [slug, navigate]);
 
-	return (
-		<div className="py-8">
-			<Container>
-				<Post post={post} />
-			</Container>
-		</div>
-	);
+	return <div className="py-8 px-8">{post && <Post post={post} />}</div>;
 };
 
 export default EditPost;

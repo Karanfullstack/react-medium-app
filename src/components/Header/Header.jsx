@@ -12,11 +12,6 @@ const Header = () => {
 	// Nav Items
 	const navItems = [
 		{
-			name: "Home",
-			slug: "/",
-			active: true,
-		},
-		{
 			name: "Login",
 			slug: "/login",
 			active: !status,
@@ -28,7 +23,7 @@ const Header = () => {
 		},
 		{
 			name: "All Posts",
-			slug: "/all-posts",
+			slug: "/",
 			active: status,
 		},
 		{

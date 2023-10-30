@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {useSelector} from "react-redux";
 import storageService from "../../services/storageService";
@@ -7,6 +7,7 @@ import {Button, Input, RTE, Select} from "../../common";
 
 const Post = ({post}) => {
 	const userData = useSelector((state) => state.auth.userData);
+	const [loading, setLoading] = useState(false);
 
 	const {control, register, setValue, getValues, handleSubmit, watch} = useForm(
 		{
@@ -14,13 +15,14 @@ const Post = ({post}) => {
 				title: post?.title || "",
 				content: post?.content || "",
 				status: post?.status || "inactive",
-				slug: post?.slug || "",
+				slug: post?.$id || "",
 			},
 		}
 	);
 
 	// Submit form
 	const onPost = async (data) => {
+		console.log(data);
 		if (post) {
 			const file = data.image[0] ? data.image[0] : null;
 			if (file) {
@@ -39,6 +41,7 @@ const Post = ({post}) => {
 			const file = await storageService.uploadFile(data.image[0]);
 			if (file) {
 				const fileId = file.$id;
+				console.log(fileId);
 				const dbPost = await postService.createDocument({
 					...data,
 					featuredImage: fileId,
@@ -65,9 +68,10 @@ const Post = ({post}) => {
 			if (name === "title") {
 				setValue("slug", slugTransform(value.title));
 			}
+
 			return () => subscription.unsubscribe();
 		});
-	}, [slugTransform]);
+	}, [slugTransform, watch, setValue, post]);
 
 	return (
 		<form
@@ -106,7 +110,7 @@ const Post = ({post}) => {
 						<img
 							src={storageService.previewFile(post.featuredImage)}
 							alt={post.title}
-							className="rounded-lg"
+							className="rounded-lg w-[200px] h-[200px] object-cover"
 						/>
 					</div>
 				)}

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import postService from "../services/postService";
 import Container from "../container/Container";
 import {Loading, PostCard} from "../common";
+import {Link} from "react-router-dom";
 
 const AllPosts = () => {
 	const [posts, setPosts] = useState([]);
@@ -31,7 +32,9 @@ const AllPosts = () => {
 				<div className="flex  flex-wrap gap-3">
 					{posts.map((post) => (
 						<div key={post.$id} className="p-2 w-1/4">
-							<PostCard post={post} />
+							<Link to={`post/${post.$id}`}>
+								<PostCard post={post} />
+							</Link>
 						</div>
 					))}
 				</div>

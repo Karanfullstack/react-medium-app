@@ -12,6 +12,7 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import AddPost from "./pages/AddPost.jsx";
 import EditPost from "./pages/EditPost.jsx";
+import PostDetails from "./pages/PostDetails.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -20,23 +21,51 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <AllPosts />,
+				element: (
+					<AuthProtected authentication>
+						<AllPosts />
+					</AuthProtected>
+				),
 			},
 			{
 				path: "/login",
-				element: <Login />,
+				element: (
+					<AuthProtected authentication={false}>
+						<Login />
+					</AuthProtected>
+				),
 			},
 			{
 				path: "/signup",
-				element: <Signup />,
+				element: (
+					<AuthProtected authentication={false}>
+						<Signup />
+					</AuthProtected>
+				),
 			},
 			{
 				path: "/add-post",
-				element: <AddPost />,
+				element: (
+					<AuthProtected authentication>
+						<AddPost />
+					</AuthProtected>
+				),
+			},
+			{
+				path: "/post/:slug",
+				element: (
+					<AuthProtected authentication>
+						<PostDetails />
+					</AuthProtected>
+				),
 			},
 			{
 				path: "/edit-post/:slug",
-				element: <EditPost />,
+				element: (
+					<AuthProtected authentication>
+						<EditPost />
+					</AuthProtected>
+				),
 			},
 		],
 	},
