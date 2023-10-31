@@ -19,8 +19,8 @@ class PostService {
 			return await this.databases.createDocument(
 				environment.appwriteDatabseId,
 				environment.appwriteCollectionId,
-				slug,
-				{title, content, featuredImage, status, userId}
+				ID.unique(),
+				{title, content, featuredImage, status, slug, userId}
 			);
 		} catch (error) {
 			console.log("createDocument -- error");
@@ -29,13 +29,16 @@ class PostService {
 	}
 
 	// Update Document @Successful
-	async updateDocument(slug, {title, content, featuredImage, status}) {
+	async updateDocument(
+		documentId,
+		{title, content, featuredImage, status, slug}
+	) {
 		try {
 			return await this.databases.updateDocument(
 				environment.appwriteDatabseId,
 				environment.appwriteCollectionId,
-				slug,
-				{title, content, featuredImage, status}
+				documentId,
+				{title, content, featuredImage, status, slug}
 			);
 		} catch (error) {
 			throw error;
@@ -70,7 +73,13 @@ class PostService {
 	}
 
 	// List Documents @Sucessful - Get All Documents
-	async listDocuments(queries = [Query.equal("status", "active")]) {
+	async listDocuments(queries = [], slug) {
+		if (queries.length === 0) {
+			queries.push(Query.equal("status", "active"));
+		}
+		if (slug) {
+			queries.push(Query.equal("slug", slug));
+		}
 		try {
 			return await this.databases.listDocuments(
 				environment.appwriteDatabseId,

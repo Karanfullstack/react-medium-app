@@ -5,21 +5,22 @@ import postService from "../services/postService";
 import storageService from "../services/storageService";
 import Container from "../container/Container";
 import {Button} from "../common";
+import parse from "html-react-parser";
 
 const PostDetails = () => {
 	const [post, setPost] = useState();
 	console.log(post, "All possts");
-	const {slug} = useParams();
 
+	const {id} = useParams();
 	const navigate = useNavigate();
 	const {userData} = useSelector((state) => state.auth);
 
 	const Author = post && userData ? post.userId === userData.$id : false;
 
 	useEffect(() => {
-		if (slug) {
+		if (id) {
 			postService
-				.listDocument(slug)
+				.listDocument(id)
 				.then((data) => {
 					if (data) {
 						setPost(data);
@@ -32,7 +33,7 @@ const PostDetails = () => {
 		} else {
 			navigate("/");
 		}
-	}, [navigate, slug]);
+	}, [navigate, id]);
 
 	const deletePost = () => {
 		if (post) {
@@ -53,20 +54,18 @@ const PostDetails = () => {
 		<div className="py-8">
 			<Container>
 				{post && (
-					<div className="w-full  flex justify-center mb-4 relative border rounded-xl p-2">
+					<div className="w-full  flex justify-center mb-4 relative  rounded-xl p-2">
 						<img
 							src={storageService.previewFile(post.featuredImage)}
 							alt={post.title}
-							className="rounded-xl w-[300px] "
+							className="rounded-xl w-[600px] "
 						/>
 						{Author && (
 							<div className="absolute right-6 top-6">
-								<Link to={`/edit-post/${slug}`}>
-									<Button bgColor="bg-green-500" className="mr-3">
-										Edit
-									</Button>
+								<Link to={`/edit-post/${id}`}>
+									<Button className="mr-3 bg-green-500">Edit</Button>
 								</Link>
-								<Button bgColor="bg-red-500" onClick={deletePost}>
+								<Button className="bg-red-500" onClick={deletePost}>
 									Delete
 								</Button>
 							</div>
@@ -76,7 +75,7 @@ const PostDetails = () => {
 				<div className="w-full mb-6">
 					{post && <h1 className="text-2xl font-bold">{post.title}</h1>}
 				</div>
-				{post && <div className="browser-css">{post.content}</div>}
+				{post && <div className="browser-css">{parse(post.content)}</div>}
 			</Container>
 		</div>
 	);

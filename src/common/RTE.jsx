@@ -4,13 +4,14 @@ import {Controller} from "react-hook-form";
 
 const RTE = ({label, name, control, defaultValue}) => {
 	return (
-		<div className="w-full">
+		<div className="w-full flex flex-wrap">
 			{label && <label className="inline-block mb-1 p-1">{label}</label>}
 			<Controller
 				name={name}
 				control={control}
 				render={({field: {onChange}}) => (
 					<Editor
+						content_style="body {width: 100%;}"
 						initialValue={defaultValue}
 						init={{
 							initialValue: defaultValue,

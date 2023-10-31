@@ -22,7 +22,7 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: (
-					<AuthProtected authentication>
+					<AuthProtected authentication={true}>
 						<AllPosts />
 					</AuthProtected>
 				),
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
 				),
 			},
 			{
-				path: "/post/:slug",
+				path: "/post/:id",
 				element: (
 					<AuthProtected authentication>
 						<PostDetails />

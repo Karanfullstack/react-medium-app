@@ -29,15 +29,21 @@ const AllPosts = () => {
 	) : (
 		<div className="w-full py-5">
 			<Container>
-				<div className="flex  flex-wrap gap-3">
-					{posts.map((post) => (
-						<div key={post.$id} className="p-2 w-1/4">
-							<Link to={`post/${post.$id}`}>
-								<PostCard post={post} />
-							</Link>
-						</div>
-					))}
-				</div>
+				{posts.length > 0 ? (
+					<div className="flex  flex-wrap gap-3">
+						{posts.map((post) => (
+							<div key={post.$id} className="p-2 w-1/4">
+								<Link to={`post/${post.$id}`}>
+									<PostCard post={post} collectionId={post.$collectionId} />
+								</Link>
+							</div>
+						))}
+					</div>
+				) : (
+					<div className="text-center flex items-center justify-center">
+						<p className="text-2xl h-[500px] font-semibold">No posts found</p>
+					</div>
+				)}
 			</Container>
 		</div>
 	);

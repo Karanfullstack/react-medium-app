@@ -1,41 +1,41 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {useSelector} from "react-redux";
 import storageService from "../../services/storageService";
 import postService from "../../services/postService";
 import {Button, Input, RTE, Select} from "../../common";
+import {useNavigate} from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Post = ({post}) => {
+	const navigate = useNavigate();
 	const userData = useSelector((state) => state.auth.userData);
-	const [loading, setLoading] = useState(false);
-
 	const {control, register, setValue, getValues, handleSubmit, watch} = useForm(
 		{
 			defaultValues: {
 				title: post?.title || "",
 				content: post?.content || "",
 				status: post?.status || "inactive",
-				slug: post?.$id || "",
+				slug: post?.slug || "",
 			},
 		}
 	);
 
 	// Submit form
 	const onPost = async (data) => {
-		console.log(data);
 		if (post) {
 			const file = data.image[0] ? data.image[0] : null;
 			if (file) {
 				await storageService.deleteFile(post.featuredImage);
 			}
-			const dbPost = await postService.updatePost(post.$id, {
+			const dbPost = await postService.updateDocument(post.$id, {
 				...data,
-				featuredImage: file ? file.$id : undefined,
+				featuredImage: file ? file.$id : post.featuredImage,
 			});
 
 			if (dbPost) {
-				console.log("Redicret to post page");
-				return;
+				toast.success("Post Updated Successfully");
+				navigate(`/post/${dbPost.$id}`);
 			}
 		} else {
 			const file = await storageService.uploadFile(data.image[0]);
@@ -48,7 +48,9 @@ const Post = ({post}) => {
 					userId: userData.$id,
 				});
 				if (dbPost) {
-					console.log("post Created");
+					console.log(dbPost);
+					toast.success("Post Created Successfully");
+					navigate("/");
 				}
 			}
 		}
@@ -79,7 +81,7 @@ const Post = ({post}) => {
 			className="py-5 px-5 gap-5 flex flex-wrap "
 		>
 			{/* Title, Slug, Editor */}
-			<div className="w-3/5 px-2  flex flex-col gap-3 items-center justify-center">
+			<div className="w-3/5 px-2  flex flex-col gap-3 items-center justify-center flex-wrap">
 				<Input
 					labelClass="text-2xl tracking-wider"
 					label="Title"
@@ -96,6 +98,7 @@ const Post = ({post}) => {
 					{...register("slug", {required: true})}
 					onInput={(e) => setValue("slug", slugTransform(e.target.value))}
 				/>
+
 				<RTE
 					control={control}
 					name="content"
@@ -104,7 +107,7 @@ const Post = ({post}) => {
 			</div>
 
 			{/* Upload Image, Status, Submit Button  */}
-			<div className="w-1/3 px-2 flex flex-col gap-6 items-center">
+			<div className="w-1/3 px-2 flex flex-col flex-wrap  gap-6 items-center">
 				{post && (
 					<div className="w-full mb-4">
 						<img
