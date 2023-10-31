@@ -11,11 +11,12 @@ const RTE = ({label, name, control, defaultValue}) => {
 				control={control}
 				render={({field: {onChange}}) => (
 					<Editor
+						apiKey="rcm8yplt9be6hwx70a17fx66i1y6tntx083jnqfukun9lowi"
 						content_style="body {width: 100%;}"
 						initialValue={defaultValue}
 						init={{
 							initialValue: defaultValue,
-							height: 500,
+							height: 400,
 							width: 800,
 							menubar: true,
 							plugins: [
