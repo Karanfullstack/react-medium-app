@@ -71,7 +71,7 @@ const Signup = () => {
 						{...register("password")}
 					/>
 					<Button type="submit" className=" bg-gray-800">
-						{loading ? "Processing" : "Submit"}
+						{loading ? "Processing.." : "Signup"}
 					</Button>
 				</div>
 			</form>

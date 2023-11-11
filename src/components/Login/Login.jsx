@@ -71,7 +71,7 @@ const Login = () => {
 						type="submit"
 						className=" bg-gray-800 duration-200 hover:bg-slate-400"
 					>
-						{loading ? "Processing" : "Submit"}
+						{loading ? "Processing..." : "Login"}
 					</Button>
 				</div>
 			</form>
